@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: main-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: demo-prakash.com
+    http:
+      paths:
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: backend-service
+              port:
+                number: 5000
+        - path: /home
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend-service
+              port:
+                number: 7000
+        - path: /auth
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port:
+                number: 4000
