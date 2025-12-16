@@ -83,8 +83,9 @@ echo -e "${YELLOW}To watch pod status:${NC}"
 echo -e "  kubectl get pods -w\n"
 
 echo -e "${YELLOW}To access services (add to /etc/hosts):${NC}"
-echo -e "  $(minikube ip 2>/dev/null || echo '<minikube-ip>')  ui.demo.com backend.demo.com\n"
+echo -e "  $(minikube ip 2>/dev/null || echo '<minikube-ip>')  ui.demo.com backend.demo.com auth.demo.com\n"
 
 echo -e "${YELLOW}Service URLs:${NC}"
 echo -e "  Frontend: http://ui.demo.com"
 echo -e "  Backend:  http://backend.demo.com"
+echo -e "  Auth:     http://auth.demo.com"

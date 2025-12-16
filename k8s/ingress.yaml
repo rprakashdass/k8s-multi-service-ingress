@@ -5,24 +5,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: backend.demo-prakash.com
-    http:
-      paths:
-        - path: /api
-          pathType: Prefix
-          backend:
-            service:
-              name: backend-service
-              port:
-                number: 5000
-        - path: /auth
-          pathType: Prefix
-          backend:
-            service:
-              name: auth-service
-              port:
-                number: 4000
-  - host: ui.demo-prakash.com
+  - host: ui.demo.com
     http:
       paths:
         - path: /
@@ -31,4 +14,29 @@ spec:
             service:
               name: frontend-service
               port:
-                number: 7000
+                number: 3000
+  - host: backend.demo.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: backend-service
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: backend-service
+              port:
+                number: 4000
+  - host: auth.demo.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port:
+                number: 5000
