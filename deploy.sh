@@ -39,7 +39,12 @@ echo -e "${GREEN}✓ All images built successfully!${NC}\n"
 # Step 2: Load images to Minikube (if using Minikube)
 echo -e "${YELLOW}[2/4] Loading images to Kubernetes cluster...${NC}"
 if command -v minikube &> /dev/null; then
-    echo -e "${GREEN}Detected Minikube - loading images...${NC}"
+    echo -e "${GREEN}Detected Minikube - removing old images...${NC}"
+    minikube image rm auth-app:1.0 2>/dev/null || true
+    minikube image rm backend-app:1.0 2>/dev/null || true
+    minikube image rm frontend-app:2.0 2>/dev/null || true
+    
+    echo -e "${GREEN}Loading new images...${NC}"
     minikube image load auth-app:1.0
     minikube image load backend-app:1.0
     minikube image load frontend-app:2.0
@@ -50,6 +55,9 @@ fi
 
 # Step 3: Apply Kubernetes manifests
 echo -e "${YELLOW}[3/4] Deploying to Kubernetes...${NC}"
+
+echo -e "${GREEN}Creating namespace...${NC}"
+kubectl apply -f k8s/namespace.yaml
 
 echo -e "${GREEN}Applying deployments...${NC}"
 kubectl apply -f k8s/auth-deployment.yaml
@@ -69,18 +77,18 @@ echo -e "${GREEN}✓ All resources applied!${NC}\n"
 # Step 4: Check deployment status
 echo -e "${YELLOW}[4/4] Checking deployment status...${NC}"
 sleep 3
-kubectl get deployments
+kubectl get deployments -n demo
 echo ""
-kubectl get services
+kubectl get services -n demo
 echo ""
-kubectl get ingress
+kubectl get ingress -n demo
 
 echo -e "\n${BLUE}========================================${NC}"
 echo -e "${GREEN}✓ Deployment Complete!${NC}"
 echo -e "${BLUE}========================================${NC}\n"
 
 echo -e "${YELLOW}To watch pod status:${NC}"
-echo -e "  kubectl get pods -w\n"
+echo -e "  kubectl get pods -n demo -w\n"
 
 echo -e "${YELLOW}To access services (add to /etc/hosts):${NC}"
 echo -e "  $(minikube ip 2>/dev/null || echo '<minikube-ip>')  ui.demo.com backend.demo.com auth.demo.com\n"

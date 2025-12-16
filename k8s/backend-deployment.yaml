@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
+  namespace: demo
 spec:
   replicas: 3
   selector:
@@ -16,23 +17,4 @@ spec:
       - name: backend
         image: backend-app:1.0
         ports:
-          - containerPort: 4000
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "200m"
-        livenessProbe:
-          httpGet:
-            path: /api
-            port: 4000
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /api
-            port: 4000
-          initialDelaySeconds: 5
-          periodSeconds: 5 
+          - containerPort: 4000 

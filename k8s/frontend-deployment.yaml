@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
+  namespace: demo
   annotations:
     description: "Frontend application deployment"
     version: "2.0"
@@ -22,23 +23,6 @@ spec:
           - containerPort: 3000
         env:
           - name: BACKEND_BASE_URL
-            value: "http://backend.demo-prakash.com"
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "200m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+            value: "http://backend.demo.com"
+          - name: AUTH_BASE_URL
+            value: "http://auth.demo.com"
