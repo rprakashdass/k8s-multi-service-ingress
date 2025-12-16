@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
+  annotations:
+    description: "Frontend application deployment"
+    version: "2.0"
 spec:
   replicas: 1
   selector:
@@ -14,7 +17,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: frontend-app:1.0
+        image: frontend-app:2.0
         ports:
           - containerPort: 7000
         env:
