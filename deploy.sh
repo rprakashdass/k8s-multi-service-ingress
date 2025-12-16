@@ -40,8 +40,11 @@ echo -e "${GREEN}✓ All images built successfully!${NC}\n"
 echo -e "${YELLOW}[2/4] Loading images to Kubernetes cluster...${NC}"
 if command -v minikube &> /dev/null; then
     echo -e "${GREEN}Detected Minikube - removing old images...${NC}"
+    kubectl delete deployment auth -n demo
     minikube image rm auth-app:1.0 2>/dev/null || true
+    kubectl delete deployment backend -n demo
     minikube image rm backend-app:1.0 2>/dev/null || true
+    kubectl delete deployment frontend -n demo
     minikube image rm frontend-app:2.0 2>/dev/null || true
     
     echo -e "${GREEN}Loading new images...${NC}"
@@ -57,20 +60,20 @@ fi
 echo -e "${YELLOW}[3/4] Deploying to Kubernetes...${NC}"
 
 echo -e "${GREEN}Creating namespace...${NC}"
-kubectl apply -f k8s/namespace.yaml
+kubectl apply k8s/namespace.yaml
 
 echo -e "${GREEN}Applying deployments...${NC}"
-kubectl apply -f k8s/auth-deployment.yaml
-kubectl apply -f k8s/backend-deployment.yaml
-kubectl apply -f k8s/frontend-deployment.yaml
+kubectl apply k8s/auth-deployment.yaml
+kubectl apply k8s/backend-deployment.yaml
+kubectl apply k8s/frontend-deployment.yaml
 
 echo -e "${GREEN}Applying services...${NC}"
-kubectl apply -f k8s/auth-service.yaml
-kubectl apply -f k8s/backend-service.yaml
-kubectl apply -f k8s/frontend-service.yaml
+kubectl apply k8s/auth-service.yaml
+kubectl apply k8s/backend-service.yaml
+kubectl apply k8s/frontend-service.yaml
 
 echo -e "${GREEN}Applying ingress...${NC}"
-kubectl apply -f k8s/ingress.yaml
+kubectl apply k8s/ingress.yaml
 
 echo -e "${GREEN}✓ All resources applied!${NC}\n"
 
