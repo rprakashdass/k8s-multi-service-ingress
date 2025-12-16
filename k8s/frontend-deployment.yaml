@@ -17,3 +17,6 @@ spec:
         image: frontend-app:1.0
         ports:
           - containerPort: 7000
+        env:
+          - name: BACKEND_BASE_URL
+            value: "http://backend.demo-prakash.com"
