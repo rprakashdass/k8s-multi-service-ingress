@@ -99,3 +99,49 @@ kubectl logs -f deployment/auth
 # Debug pods
 kubectl describe pod <pod-name>
 ```
+
+## MongoDB StatefulSet
+
+**Initialize replica set:**
+```bash
+kubectl exec -it mongo-0 -n demo -- mongosh -u admin -p password
+```
+
+```javascript
+rs.initiate({
+  _id: "rs0",
+  members: [
+    { _id: 0, host: "mongo-0.mongo.demo.svc.cluster.local:27017" },
+    { _id: 1, host: "mongo-1.mongo.demo.svc.cluster.local:27017" },
+    { _id: 2, host: "mongo-2.mongo.demo.svc.cluster.local:27017" }
+  ]
+})
+```
+
+**Connect from MongoDB Compass:**
+```bash
+# Port-forward mongo-0
+kubectl port-forward mongo-0 -n demo 27017:27017
+
+# Connection string:
+mongodb://admin:password@localhost:27017/?directConnection=true
+```
+
+
+- understand omni flo in infra level. (application plays vital part). how wms2 flow is there. (major change account flow)
+- proxy & integration
+- infra
+
+
+existin client
+- repro
+    - have only cims, wms, sfs -> need wms2
+- k8s (add 1 sub obj wms2 in base helm chart)
+- should chng helm chart (lvl 1)
+- accnt server - 2 not 1
+- wms only has acnt server 2
+- `TODO: credential`
+
+
+- thursday
+- set up a meeting
